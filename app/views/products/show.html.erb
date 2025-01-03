@@ -1,0 +1,34 @@
+<div class="container mt-5">
+       <%= link_to "Back", products_path %>
+    <div class="row">
+        <div class="col-md-6">
+            <% if @product.featured_image.attached? %>
+                <%= image_tag @product.featured_image, class: "img-fluid rounded shadow mb-4", style: "width: 450px; height: 450px; object-fit: cover;" %>
+            <% end %>
+        </div>
+        <div class="col-md-6">
+            <section class="product-info border p-4 rounded shadow">
+                <% cache @product do %>
+                    <h1 class="text-primary mb-3 display-4"><%= @product.name %></h1>
+                <% end %>
+
+                <div class="border p-3 rounded mb-3">
+                    <h5 class="text-secondary">Description</h5>
+                    <p class="lead text-muted"><%= @product.description %></p>
+                </div>
+
+                <div class="border p-3 rounded mb-3">
+                    <h5 class="text-secondary">Inventory</h5>
+                    <%= render "inventory", product: @product %>
+                </div>
+
+                <% if authenticated? %>
+                    <div class="d-flex justify-content-start mt-4">
+                        <%= link_to "Edit", edit_product_path(@product), class: "btn btn-warning mr-2" %>
+                        <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+                    </div>
+                <% end %>
+            </section>
+        </div>
+    </div>
+</div>
